@@ -2,6 +2,17 @@
 
 A small, rule-based prototype for recording selected post-mortem signs in cows, sheep, and camels and presenting a **rough time-since-death range**. It is an educational aid, not a diagnostic tool or a veterinary-forensic conclusion.
 
+## Run the Next.js app
+
+Install dependencies, then start the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`. Use `npm run build` followed by `npm run start` to run the production build. The user interface is in `app/page.jsx`, global styles are in `app/globals.css`, and `app/api/reference-data` serves the consolidated reference catalog.
+
 ## Signs to record
 
 The initial observations suggested for the project are:

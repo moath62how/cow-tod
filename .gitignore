@@ -1,9 +1,12 @@
 # OS-generated files
 .DS_Store
 Thumbs.db
+.next/
+node_modules/
 
 # Original extraction files superseded by animal_pmi_data.json
 /deathp1.json
 /deathp2.json
 /deathp3.json
 /deathwithlongname.json
+¬
