@@ -82,7 +82,7 @@ export default function Home() {
 
   return (
     <main>
-      <h1>{animal.emoji} {animal.label} — Time Since Death</h1>
+      <h1><img src="/logo.png" alt="" className="app-logo" />{animal.label} — Time Since Death</h1>
       <p className="sub">Rule-based estimate from post-mortem signs. Leave a field as “Not checked” if you did not observe it.</p>
       <div className="note">⚠ Educational prototype: some values have source citations, but rigor, livor, and cooling guidance is general rather than {animal.label.toLowerCase()}-specific. Do not use this output as a forensic conclusion.</div>
 
