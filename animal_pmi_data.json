@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 1,
+  "title": "Consolidated animal post-mortem reference data",
+  "purpose": "Normalize the animal names in the supplied project data and apply the available general guidance to each animal with its source and inference status preserved.",
+  "importantInterpretation": "General ranges below are educational reference values, not validated species-specific post-mortem intervals. Normal live-animal temperature is not a measured temperature at death. Do not derive a species-specific time of death from these ranges alone.",
+  "animalInventory": {
+    "canonicalSpeciesCount": 12,
+    "normalization": [
+      "Cow and cattle are one cattle record.",
+      "Chicken and poultry are one chicken record; chicken measurements do not represent every bird species.",
+      "Giraffe / hanging animal is a giraffe record; hanging animal describes posture, not a species.",
+      "Camel is included because it is an application species, although it has no species record in deathp1.json, deathp2.json, or deathp3.json."
+    ],
+    "emptyInput": "deathwithlongname.json is empty (0 bytes) and contributes no animal records."
+  },
+  "sources": {
+    "project_p1": {
+      "kind": "User-provided extracted reference data",
+      "file": "deathp1.json",
+      "claims": "Species normal-temperature entries and general rigor, cooling-rate, lecture cooling-guide, and size-group equilibration entries; source locations are recorded in the source text in that file."
+    },
+    "project_p2": {
+      "kind": "User-provided extracted reference data",
+      "file": "deathp2.json",
+      "claims": "General livor appearance and fixation ranges, movement and contact modifiers, and animal-specific posture or pigmentation notes."
+    },
+    "project_p3": {
+      "kind": "User-provided extracted reference data",
+      "file": "deathp3.json",
+      "claims": "Byte-for-byte duplicate of deathp1.json; treated as a repeated extraction, not independent confirmation."
+    },
+    "merck_normal_rectal_temperature": {
+      "kind": "Veterinary reference table",
+      "title": "Normal Rectal Temperature Ranges",
+      "url": "https://www.merckvetmanual.com/multimedia/table/normal-rectal-temperature-ranges",
+      "claims": "Normal rectal temperature ranges for common domestic animals, including cattle, horse, sheep, goat, pig, dog, cat, rabbit, and daylight chicken."
+    },
+    "fao_animal_body": {
+      "kind": "Food and Agriculture Organization of the United Nations reference chapter",
+      "title": "Chapter 2: The animal body, Unit 4: Body temperature",
+      "url": "https://www.fao.org/4/t0690e/t0690e04.htm",
+      "claims": "General live-animal temperature references, including camel; explains camel temperature variation with time of day and water availability."
+    },
+    "giraffe_field_immobilisation": {
+      "kind": "Peer-reviewed veterinary field paper",
+      "title": "Effective Field Immobilisation and Capture of Giraffe (Giraffa camelopardalis)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9137789/",
+      "claims": "Reports an adult giraffe normal body-temperature guide of 37–38.6 °C in a field-immobilisation context."
+    },
+    "giraffe_translocation_manual": {
+      "kind": "Wildlife veterinary field manual",
+      "title": "A Journey of Giraffe: A Practical Guide to Wild Giraffe Translocations",
+      "url": "https://giraffeconservation.org/wp-content/uploads/2019/03/A-Journey-of-Giraffe-A-practical-guide-to-wild-giraffe-translocations.pdf",
+      "claims": "Gives a giraffe body-temperature guide of 38.5 ± 0.5 °C in an operational translocation context."
+    },
+    "deer_temperature_study": {
+      "kind": "Peer-reviewed veterinary study",
+      "title": "Comparison of tympanic membrane and rectal temperatures of anesthetized fallow deer (Dama dama)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9809610/",
+      "claims": "Reports rectal temperatures measured during recovery from anesthesia; this is not a normal baseline range and is retained only as context."
+    },
+    "wildlife_forensics_handbook": {
+      "kind": "Veterinary university wildlife-forensics handbook",
+      "title": "Handbook on Standard Operating Procedures in Forensic Investigations of Suspected Illegal Killing of Wildlife",
+      "url": "https://www.vetmeduni.ac.at/fileadmin/v/fiwi/Projekte/ALPBIONET/4-3-alpbionet2030-Practical_handbook_on_forensic_procedures_in_wildlife_crime-output.pdf",
+      "page": 55,
+      "claims": "Post-mortem changes depend on species, size, activity, cause of death, and environment; cooling is slower in large insulated mammals than in emaciated birds; animal-specific data are limited and human cooling models should not simply be extrapolated to animal species."
+    }
+  },
+  "generalDefaults": {
+    "status": "General guidance inherited by every species record below; no claim is species-validated unless a species-specific source is explicitly listed.",
+    "coolingRateCPerHour": {
+      "range": [0.5, 1.5],
+      "unit": "°C/hour",
+      "source": "deathp1.json, unspecified.algor.rateCPerHour; death p1.pdf, PDF p. 15",
+      "limitations": "A broad rule of thumb, not a validated constant for any listed species or all hours after death. Cooling depends on body size, insulation, ambient conditions, airflow, surface contact, body condition, and circumstances before death."
+    },
+    "lectureCoolingGuide": [
+      { "intervalHours": [0, 3], "rateText": "3 °F/hour", "convertedRateCPerHour": 1.67 },
+      { "intervalHours": [3, 7], "rateText": "2 °F/hour", "convertedRateCPerHour": 1.11 },
+      { "intervalHours": "after 7 hours", "rateText": "1 °F/hour", "convertedRateCPerHour": 0.56 }
+    ],
+    "lectureCoolingGuideSource": "deathp1.json, unspecified.algor.lectureCoolingGuide; death p1.pdf, PDF p. 26. This staged guide differs from the 0.5–1.5 °C/hour general range and is kept separate rather than averaged.",
+    "rigorMortisHours": {
+      "primaryFlaccidity": {
+        "timing": "Immediate; lasts a few hours",
+        "source": "deathp1.json, unspecified.rigor.primaryFlaccidity; death p1.pdf, PDF p. 15"
+      },
+      "onsetOrDeveloping": {
+        "range": [2, 6],
+        "unit": "hours",
+        "source": "deathp1.json, unspecified.rigor.onset; death p1.pdf, PDF p. 15"
+      },
+      "fullRigor": {
+        "range": [6, 12],
+        "unit": "hours",
+        "source": "deathp1.json, unspecified.rigor.full; death p1.pdf, PDF p. 15"
+      },
+      "disappearanceOrPassingOff": {
+        "range": [24, 48],
+        "unit": "hours",
+        "source": "deathp1.json, unspecified.rigor.disappears; death p1.pdf, PDF p. 15"
+      },
+      "order": "Eyelids, jaw, and neck; then larger muscles; diaphragm and heart last.",
+      "orderSource": "deathp1.json, unspecified.rigor.order; death p1.pdf, PDF p. 15",
+      "speciesSpecific": false
+    },
+    "livorMortisHours": {
+      "firstAppearance": {
+        "range": [0.3333, 2],
+        "unit": "hours",
+        "interpretation": "Envelope of the supplied general estimates, approximately 20 minutes to 2 hours; source claims differ in how narrowly they state first appearance.",
+        "sourceRefs": ["deathp1.json, unspecified.livor.appears; death p1.pdf, PDF p. 15", "deathp2.json, groupLevel.UNSPECIFIED SPECIES.livorFirstAppearance; death p2.pdf, PDF pp. 5 and 10"]
+      },
+      "fixed": {
+        "range": [6, 12],
+        "unit": "hours",
+        "sourceRefs": ["deathp1.json, unspecified.livor.fixed; death p1.pdf, PDF p. 15", "deathp2.json, groupLevel.UNSPECIFIED SPECIES.livorFixed; death p2.pdf, PDF pp. 5 and 10"]
+      },
+      "mobileBeforeFixation": "Blood distribution may shift after the body is moved before fixation; a separate time interval for the mobile state is not provided.",
+      "fixedTest": "Does not blanch on pressure.",
+      "modifiers": [
+        "Movement before fixation can redistribute staining.",
+        "Firm contact surfaces can cause contact pallor.",
+        "Severe blood loss can make staining difficult to appreciate.",
+        "Pigmentation, coat or fleece, and recumbent position affect visibility and distribution."
+      ],
+      "sourceRefs": ["deathp1.json, unspecified.livor; death p1.pdf, PDF p. 15", "deathp2.json, groupLevel.UNSPECIFIED SPECIES; death p2.pdf, PDF pp. 5–11"],
+      "speciesSpecific": false
+    },
+    "ambientEquilibrationHours": {
+      "byTypicalBodySize": {
+        "large": { "range": [8, 12], "source": "deathp1.json, groupLevel.Large animal; death p1.pdf, PDF p. 26" },
+        "small": { "range": [5, 7], "source": "deathp1.json, groupLevel.Small animal; death p1.pdf, PDF p. 26" }
+      },
+      "otherUnspecifiedClaim": {
+        "range": [12, 24],
+        "source": "deathp1.json, unspecified.algor.ambientEquilibrationHours; death p1.pdf, PDF p. 21",
+        "note": "This general claim differs from the size-stratified estimates; both are preserved because the provided extraction does not reconcile them."
+      },
+      "speciesSpecific": false
+    },
+    "generalOtherSigns": [
+      { "sign": "Tache noire", "timing": "Within 2 hours", "condition": "Eyelids open", "source": "deathp1.json, unspecified.otherSigns; death p1.pdf, PDF p. 16" },
+      { "sign": "Scleral discoloration", "timing": "120-minute illustration", "source": "deathp1.json, unspecified.otherSigns; death p1.pdf, PDF p. 15" },
+      { "sign": "Dark scleral spot", "timing": "360-minute illustration", "source": "deathp1.json, unspecified.otherSigns; death p1.pdf, PDF p. 15" }
+    ]
+  },
+  "species": {
+    "cattle": {
+      "canonicalName": "Cattle",
+      "aliases": ["Cow", "Cattle", "Cow / cattle"],
+      "sizeGroup": { "value": "large", "basis": "Typical adult cattle; calves and small breeds differ.", "status": "inferred from usual adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [36.7, 39.3],
+        "reportedRanges": [
+          { "range": [38.0, 39.3], "population": "Cattle, unspecified production type", "source": "project_p1" },
+          { "range": [36.7, 39.1], "population": "Beef cow", "source": "merck_normal_rectal_temperature" },
+          { "range": [38.0, 39.3], "population": "Dairy cow", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false,
+        "note": "Use the production-type reference when known. These are live-animal reference temperatures, not a measured temperature at death."
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [8, 12], "speciesValidated": false },
+      "speciesContextNotes": ["Dorsal recumbency is illustrated for livor distribution.", "Contact pallor is discussed in relation to pressure and displacement of blood."],
+      "contextSource": "deathp2.json, species['Cow / cattle'].otherSigns; death p2.pdf, PDF pp. 5–6"
+    },
+    "sheep": {
+      "canonicalName": "Sheep",
+      "aliases": ["Sheep"],
+      "sizeGroup": { "value": "small", "basis": "Typical adult sheep is assigned to the smaller of the supplied size groups; breed and body mass vary.", "status": "inferred from typical adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [38.3, 39.9],
+        "reportedRanges": [
+          { "range": [38.3, 39.9], "population": "Sheep", "source": "project_p1" },
+          { "range": [38.3, 39.9], "population": "Sheep", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false,
+        "note": "A normal live rectal-temperature range does not account for fleece insulation or body temperature at death."
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [5, 7], "speciesValidated": false },
+      "speciesContextNotes": ["Contact pallor is discussed jointly with goats.", "A light-pigmented sheep is used in an example distinguishing lividity from bruising."],
+      "contextSource": "deathp2.json, species.Sheep.otherSigns; death p2.pdf, PDF pp. 6 and 11"
+    },
+    "camel": {
+      "canonicalName": "Camel",
+      "aliases": ["Camel", "Dromedary camel", "Bactrian camel"],
+      "sizeGroup": { "value": "large", "basis": "Typical adult camel; age and species affect body size.", "status": "inferred from usual adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [34.5, 41.0],
+        "reportedRanges": [
+          { "range": [34.5, 41.0], "population": "Camel; varies with time of day and water availability", "source": "fao_animal_body" },
+          { "range": [32.0, 38.0], "population": "Bactrian camels at high altitude; study-specific reference interval", "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7427938/" }
+        ],
+        "useAsPostmortemBaseline": false,
+        "note": "These reported ranges vary by hydration, time of day, camel type, and study setting. Do not select a single camel baseline from this envelope for PMI estimation."
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [8, 12], "speciesValidated": false },
+      "speciesContextNotes": ["No camel-specific postmortem timing data appears in the supplied extraction files."],
+      "contextSource": "No camel record in deathp1.json, deathp2.json, or deathp3.json."
+    },
+    "dog": {
+      "canonicalName": "Dog",
+      "aliases": ["Dog", "Canine"],
+      "sizeGroup": { "value": "variable", "basis": "Adult body mass varies greatly by breed.", "status": "species-specific size required" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [37.5, 39.2],
+        "reportedRanges": [
+          { "range": [38.3, 39.2], "population": "Dog", "source": "project_p1" },
+          { "range": [37.5, 39.2], "population": "Dog", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": { "value": 0.5, "unit": "°C/hour", "status": "approximate study value in supplied extraction; study conditions and applicability need review", "source": "project_p1" }, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": null, "conditionalAmbientEquilibrationHoursByActualSize": { "small": [5, 7], "large": [8, 12] }, "speciesValidated": false },
+      "speciesContextNotes": ["Livor distribution is illustrated in lateral recumbency.", "A light-pigmented dog is used to discuss distinguishing lividity from bruising.", "The supplied extraction notes body size can alter cooling; it does not define a universal dog size class."],
+      "contextSource": "deathp1.json, species.Dog; deathp2.json, species.Dog.otherSigns; death p1.pdf, PDF pp. 24–25; death p2.pdf, PDF pp. 5 and 11"
+    },
+    "horse": {
+      "canonicalName": "Horse",
+      "aliases": ["Horse", "Equine"],
+      "sizeGroup": { "value": "large", "basis": "Typical adult horse; foals differ.", "status": "inferred from usual adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [37.2, 38.5],
+        "reportedRanges": [
+          { "range": [37.5, 38.5], "population": "Horse, unspecified sex", "source": "project_p1" },
+          { "range": [37.3, 38.2], "population": "Mare", "source": "merck_normal_rectal_temperature" },
+          { "range": [37.2, 38.1], "population": "Stallion", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false,
+        "note": "The envelope preserves variation among the supplied and veterinary reference ranges."
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [8, 12], "speciesValidated": false },
+      "speciesContextNotes": ["Livor distribution is illustrated in lateral recumbency.", "A horse is used in an example distinguishing lividity from antemortem bruising.", "Movement before fixation can redistribute blood."],
+      "contextSource": "deathp2.json, species.Horse.otherSigns and groupLevel.UNSPECIFIED SPECIES.modifiers; death p2.pdf, PDF pp. 5, 10–11"
+    },
+    "goat": {
+      "canonicalName": "Goat",
+      "aliases": ["Goat"],
+      "sizeGroup": { "value": "small", "basis": "Typical adult goat is assigned to the smaller of the supplied size groups; breed and body mass vary.", "status": "inferred from typical adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [38.5, 40.0],
+        "reportedRanges": [
+          { "range": [38.5, 40.0], "population": "Goat", "source": "project_p1" },
+          { "range": [38.5, 39.7], "population": "Goat", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [5, 7], "speciesValidated": false },
+      "speciesContextNotes": ["Contact pallor is discussed jointly with sheep."],
+      "contextSource": "deathp1.json, species.Goat.normalTempC; deathp2.json, species.Goat.otherSigns; death p1.pdf, PDF p. 21; death p2.pdf, PDF p. 6"
+    },
+    "pig": {
+      "canonicalName": "Pig",
+      "aliases": ["Pig", "Swine"],
+      "sizeGroup": { "value": "variable", "basis": "Piglet and adult body sizes differ substantially.", "status": "age and body mass required" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [38.7, 39.8],
+        "reportedRanges": [
+          { "range": [38.7, 39.8], "population": "Pig", "source": "project_p1" },
+          { "range": [38.7, 39.8], "population": "Pig", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": null, "conditionalAmbientEquilibrationHoursByActualSize": { "small": [5, 7], "large": [8, 12] }, "speciesValidated": false },
+      "speciesContextNotes": ["The supplied case illustration has no readable known death time or post-mortem interval calculation.", "The extraction notes minimal temperature-plateau effect; this is not a cooling-rate estimate."],
+      "contextSource": "deathp1.json, species.Pig.otherSigns; deathp2.json, species.Pig.otherSigns; death p1.pdf, PDF p. 25; death p2.pdf, PDF p. 3"
+    },
+    "cat": {
+      "canonicalName": "Cat",
+      "aliases": ["Cat", "Feline"],
+      "sizeGroup": { "value": "small", "basis": "Typical adult domestic cat.", "status": "inferred from usual adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [38.0, 39.2],
+        "reportedRanges": [
+          { "range": [38.0, 39.0], "population": "Cat", "source": "project_p1" },
+          { "range": [38.1, 39.2], "population": "Cat", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [5, 7], "speciesValidated": false },
+      "speciesContextNotes": ["Livor distribution is illustrated in lateral recumbency."],
+      "contextSource": "deathp1.json, species.Cat.normalTempC; deathp2.json, species.Cat.otherSigns; death p1.pdf, PDF p. 21; death p2.pdf, PDF p. 5"
+    },
+    "rabbit": {
+      "canonicalName": "Rabbit",
+      "aliases": ["Rabbit"],
+      "sizeGroup": { "value": "small", "basis": "Typical adult domestic rabbit; breed and body mass vary.", "status": "inferred from usual adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [38.5, 40.1],
+        "reportedRanges": [
+          { "range": [38.5, 40.0], "population": "Rabbit", "source": "project_p1" },
+          { "range": [38.6, 40.1], "population": "Rabbit", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [5, 7], "speciesValidated": false },
+      "speciesContextNotes": ["No rabbit-specific postmortem timing or test case is supplied."],
+      "contextSource": "deathp1.json, species.Rabbit.normalTempC; death p1.pdf, PDF p. 21"
+    },
+    "chicken": {
+      "canonicalName": "Chicken",
+      "aliases": ["Chicken", "Poultry"],
+      "sizeGroup": { "value": "small", "basis": "Assigned from typical chicken body size; poultry is a broader category with substantial variation.", "status": "inferred from chicken, not applicable to all birds" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [40.6, 43.0],
+        "reportedRanges": [
+          { "range": [40.6, 42.2], "population": "Poultry in supplied extraction", "source": "project_p1" },
+          { "range": [40.6, 43.0], "population": "Chicken during daylight", "source": "merck_normal_rectal_temperature" }
+        ],
+        "useAsPostmortemBaseline": false,
+        "note": "The Merck range is for daylight chicken; do not apply it to every poultry species or measurement condition."
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [5, 7], "speciesValidated": false },
+      "speciesContextNotes": ["Ventral recumbency is illustrated for livor distribution."],
+      "contextSource": "deathp1.json, species.Poultry.normalTempC; deathp2.json, species.Chicken.otherSigns; death p1.pdf, PDF p. 21; death p2.pdf, PDF p. 5"
+    },
+    "deer": {
+      "canonicalName": "Deer",
+      "aliases": ["Deer", "Fallow deer", "White-tailed deer"],
+      "sizeGroup": { "value": "variable", "basis": "Deer species differ widely in adult body mass.", "status": "species identification and body mass required" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": null,
+        "reportedRanges": [
+          { "range": [37.5, 42.0], "population": "Fallow deer measured during recovery from anesthesia; not a normal range", "source": "deer_temperature_study" }
+        ],
+        "useAsPostmortemBaseline": false,
+        "note": "No suitable species-specific normal baseline is established here; the reported study range is affected by anesthesia, exertion, and recovery."
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": null, "conditionalAmbientEquilibrationHoursByActualSize": { "small": [5, 7], "large": [8, 12] }, "speciesValidated": false },
+      "speciesContextNotes": ["The supplied extraction notes that a clear temperature plateau was not shown in some studies; no deer-specific cooling rate is provided."],
+      "contextSource": "deathp1.json, species.Deer.otherSigns; death p1.pdf, PDF p. 25"
+    },
+    "giraffe": {
+      "canonicalName": "Giraffe",
+      "aliases": ["Giraffe", "Giraffe / hanging animal"],
+      "contextLabels": [{ "label": "Hanging animal", "kind": "posture/context, not a species" }],
+      "sizeGroup": { "value": "large", "basis": "Typical adult giraffe.", "status": "inferred from usual adult size" },
+      "normalRectalTemperatureC": {
+        "summaryEnvelope": [37.0, 39.0],
+        "reportedRanges": [
+          { "range": [37.0, 38.6], "population": "Adult giraffe, field immobilisation context", "source": "giraffe_field_immobilisation" },
+          { "range": [38.0, 39.0], "population": "Giraffe, translocation manual", "source": "giraffe_translocation_manual" }
+        ],
+        "useAsPostmortemBaseline": false,
+        "note": "These live-animal guides are from handling contexts and are not a validated postmortem starting temperature."
+      },
+      "projectSpecificPostmortemEvidence": { "coolingRate": null, "rigorTiming": null, "livorTiming": null, "testCases": 0 },
+      "appliedGeneralGuidance": { "coolingRateCPerHour": [0.5, 1.5], "rigorOnsetHours": [2, 6], "fullRigorHours": [6, 12], "rigorResolutionHours": [24, 48], "livorAppearanceHours": [0.3333, 2], "fixedLivorHours": [6, 12], "ambientEquilibrationHours": [8, 12], "speciesValidated": false },
+      "speciesContextNotes": ["Gravity-dependent staining may be observed in limbs and tail in hanging animals; no giraffe-specific timing is supplied."],
+      "contextSource": "deathp2.json, species['Giraffe / hanging animal'].otherSigns; death p2.pdf, PDF p. 5"
+    }
+  },
+  "globalLimitations": [
+    "Species and size are only two of many influences on post-mortem changes; activity before death, cause of death, ambient temperature and moisture, sun, rain, insulation, fat, airflow, surface contact, hydration, age, and body condition also matter.",
+    "The supplied project files contain no known-time-of-death test cases for the listed species.",
+    "Species-specific postmortem rates are not inferred from live-animal temperature ranges.",
+    "The size-based equilibration assignments are assumptions based on typical adult animals; use actual body mass and insulation when known.",
+    "deathp3.json duplicates deathp1.json and does not provide independent replication."
+  ]
+}

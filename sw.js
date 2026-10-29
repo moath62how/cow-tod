@@ -1,5 +1,5 @@
-const CACHE = "livestock-tod-v2";
-const FILES = ["./", "index.html", "manifest.webmanifest", "icon.svg"];
+const CACHE = "livestock-tod-v10";
+const FILES = ["./", "index.html", "style.css", "app.js", "animal_pmi_data.json", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
